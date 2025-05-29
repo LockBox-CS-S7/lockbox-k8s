@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lockbox-notification-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lockbox-notification-service
+  template:
+    metadata:
+      labels:
+        app: lockbox-notification-service
+    spec:
+      containers:
+      - name: lockbox-notification-service
+        image: rikdegoede/lockbox-notification-service:latest 
+        ports:
+          - containerPort: 8080
+        env:
+          - name: MONGO_DB_CONN_STRING
+            valueFrom:
+              secretKeyRef:
+                name: lockbox-secrets
+                key: mongo-db-conn-string
+          
+          - name: RABBITMQ_HOST
+            value: rabbitmq-broker
+          
+          - name: RABBITMQ_PORT
+            value: 5672
+
+          - name: RABBITMQ_USERNAME
+            value: guest
+
+          - name: RABBITMQ_PASSWORD
+            value: guest
+
