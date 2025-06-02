@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: lockbox-notification-service
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: lockbox-notification-service
@@ -18,21 +18,14 @@ spec:
         ports:
           - containerPort: 8080
         env:
-          - name: MONGO_DB_CONN_STRING
+          - name: MONGODB_CONN_STRING
             valueFrom:
               secretKeyRef:
                 name: lockbox-secrets
-                key: mongo-db-conn-string
+                key: mongodb-conn-string
           
-          - name: RABBITMQ_HOST
-            value: rabbitmq-broker
-          
-          - name: RABBITMQ_PORT
-            value: 5672
-
-          - name: RABBITMQ_USERNAME
-            value: guest
-
-          - name: RABBITMQ_PASSWORD
-            value: guest
-
+          - name: RABBITMQ_CONN_STRING
+            valueFrom:
+              secretKeyRef:
+                name: lockbox-secrets
+                key: rabbitmq-conn-string

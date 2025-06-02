@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: lockbox-notification-service
 spec:
-  type: ClusterIP     # TODO: Should be exposed extrenally using LoadBalancer
+  type: LoadBalancer
   selector:
     app: lockbox-notification-service
   ports:
