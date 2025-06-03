@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lockbox-file-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lockbox-file-service
+  template:
+    metadata:
+      labels:
+        app: lockbox-file-service
+    spec:
+      containers:
+      - name: lockbox-file-service
+        image: rikdegoede/lockbox-file-service:latest
+        ports:
+          - containerPort: 8080
+        env:
+          - name: DATABASE_URL
+            value: mysql://root:password@mysql-service/file-db
+          
+          - name: RABBIT_ADDRESS
+            valueFrom:
+              secretKeyRef:
+                name: lockbox-secrets
+                key: rabbitmq-conn-string
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: lockbox-file-service
+spec:
+  type: ClusterIP
+  selector:
+    app: lockbox-file-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  
