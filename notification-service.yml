@@ -8,5 +8,10 @@ spec:
     app: lockbox-notification-service
   ports:
     - protocol: TCP
+      name: api-port
       port: 8080
       targetPort: 8080
+    - protocol: TCP
+      name: metric-port
+      port: 1234
+      targetPort: 1234

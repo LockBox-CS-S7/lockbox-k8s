@@ -1,0 +1,5 @@
+server:
+  extraScrapeConfigs: /etc/prometheus/additional-scrape-configs.yaml
+  extraScrapeConfigsSecret:
+    enabled: true
+    name: additional-scrape-configs

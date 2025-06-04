@@ -11,12 +11,17 @@ spec:
     metadata:
       labels:
         app: lockbox-notification-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "1234"
+        prometheus.io/path: "/metrics"
     spec:
       containers:
       - name: lockbox-notification-service
         image: rikdegoede/lockbox-notification-service:latest 
         ports:
           - containerPort: 8080
+          - containerPort: 1234
         env:
           - name: MONGODB_CONN_STRING
             valueFrom:
