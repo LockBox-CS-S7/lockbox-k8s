@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: lockbox-notification-servicemonitor
+  namespace: monitoring
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: lockbox-notification-service
+  namespaceSelector:
+    matchNames:
+      - default
+  endpoints:
+    - port: metric-port
+      path: /metrics
+      interval: 15s
